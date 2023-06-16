@@ -46,6 +46,51 @@ int State::evaluate(){
   //std::cout<<val[0]<<" "<<val[1]<<"\n";
   return val[0]-val[1];
 }
+int State::betterevaluate(){
+  // [TODO] design your own evaluation function
+  int val[2];
+  int positionWeights[6][5]={
+    {1, 2, 3, 2, 1},
+    {2, 4, 6, 4, 2},
+    {3, 6, 9, 6, 3},
+    {3, 6, 9, 6, 3},
+    {2, 4, 6, 4, 2},
+    {1, 2, 3, 2, 1}
+  };
+  for(int n=0;n<2;n++){
+    val[n]=0;
+    int pieceval=0;
+    for(int i=0;i<6;i++){
+      for(int j=0;j<5;j++){
+        switch(board.board[n][i][j]){
+          case 1:
+            pieceval=1;
+            break;
+          case 2:
+            pieceval=7;
+            break;
+          case 3:
+            pieceval=3;
+            break;
+          case 4:
+            pieceval=3;
+            break;
+          case 5:
+            pieceval=8;
+            break;
+          case 6:
+            pieceval=100;
+            break;
+          default:
+            break;
+        }
+        val[n]+=pieceval*positionWeights[i][j];
+      }
+    }
+  }
+  //std::cout<<val[0]<<" "<<val[1]<<"\n";
+  return val[0]-val[1];
+}
 
 
 /**
