@@ -23,7 +23,7 @@ int State::evaluate(){
             val[n]+=1;
             break;
           case 2:
-            val[n]+=5;
+            val[n]+=7;
             break;
           case 3:
             val[n]+=3;
@@ -35,7 +35,7 @@ int State::evaluate(){
             val[n]+=8;
             break;
           case 6:
-            val[n]+=20;
+            val[n]+=100;
             break;
           default:
             break;
@@ -43,6 +43,7 @@ int State::evaluate(){
       }
     }
   }
+  //std::cout<<val[0]<<" "<<val[1]<<"\n";
   return val[0]-val[1];
 }
 
@@ -237,7 +238,7 @@ void State::get_legal_actions(){
       }
     }
   }
-  std::cout << "\n";
+  //std::cout << "\n";
   this->legal_actions = all_actions;
 }
 
