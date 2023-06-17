@@ -20,22 +20,22 @@ int State::evaluate(){
       for(int j=0;j<5;j++){
         switch(board.board[n][i][j]){
           case 1:
-            val[n]+=1;
+            val[n]+=10;
             break;
           case 2:
-            val[n]+=7;
+            val[n]+=50;
             break;
           case 3:
-            val[n]+=3;
+            val[n]+=30;
             break;
           case 4:
-            val[n]+=3;
+            val[n]+=30;
             break;
           case 5:
-            val[n]+=8;
+            val[n]+=90;
             break;
           case 6:
-            val[n]+=100;
+            val[n]+=1000;
             break;
           default:
             break;
@@ -43,7 +43,6 @@ int State::evaluate(){
       }
     }
   }
-  //std::cout<<val[0]<<" "<<val[1]<<"\n";
   return val[0]-val[1];
 }
 int State::betterevaluate(){
