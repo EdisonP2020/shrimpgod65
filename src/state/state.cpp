@@ -18,24 +18,24 @@ int State::evaluate(){
     val[n]=0;
     for(int i=0;i<6;i++){
       for(int j=0;j<5;j++){
-        switch(board.board[n][i][j]){
+        switch(board.board[n][i][j]-'\0'){
           case 1:
-            val[n]+=10;
+            val[n]+=2;
             break;
           case 2:
-            val[n]+=50;
+            val[n]+=6;
             break;
           case 3:
-            val[n]+=30;
+            val[n]+=7;
             break;
           case 4:
-            val[n]+=30;
+            val[n]+=8;
             break;
           case 5:
-            val[n]+=90;
+            val[n]+=20;
             break;
           case 6:
-            val[n]+=1000;
+            val[n]+=100;
             break;
           default:
             break;
@@ -61,21 +61,21 @@ int State::betterevaluate(){
     int pieceval=0;
     for(int i=0;i<6;i++){
       for(int j=0;j<5;j++){
-        switch(board.board[n][i][j]){
+        switch(board.board[n][i][j]-'\0'){
           case 1:
-            pieceval=1;
+            pieceval=2;
             break;
           case 2:
-            pieceval=7;
+            pieceval=6;
             break;
           case 3:
-            pieceval=3;
+            pieceval=7;
             break;
           case 4:
-            pieceval=3;
+            pieceval=8;
             break;
           case 5:
-            pieceval=8;
+            pieceval=20;
             break;
           case 6:
             pieceval=100;

@@ -32,7 +32,7 @@ Move Bettereva::get_move(State *state, int depth){
 }
 
 int Bettereva::minimax(State* state, int depth, int alpha, int beta, bool maximumplayer){
-    if(depth>=3||state->game_state==WIN){
+    if(depth>=6){
         return state->betterevaluate();
     }
     int best=(maximumplayer)?INT_MIN:INT_MAX;
@@ -43,10 +43,10 @@ int Bettereva::minimax(State* state, int depth, int alpha, int beta, bool maximu
             int val = minimax(nextstate, depth+1, alpha, beta, false);
             delete nextstate;
             best = (best>val)?best:val;
-            // alpha = (alpha>best)?alpha:best;
-            // if(beta<=alpha){
-            //     break;
-            // }
+            alpha = (alpha>best)?alpha:best;
+            if(beta<=alpha){
+                break;
+            }
         }
     }
     else{
@@ -55,10 +55,10 @@ int Bettereva::minimax(State* state, int depth, int alpha, int beta, bool maximu
             int val = minimax(nextstate, depth+1, alpha, beta, true);
             delete nextstate;
             best = (best<val)?best:val;
-            // beta = (beta<best)?beta:best;
-            // if(beta<=alpha){
-            //     break;
-            // }
+            beta = (beta<best)?beta:best;
+            if(beta<=alpha){
+                break;
+            }
         }
     }
     return best;
