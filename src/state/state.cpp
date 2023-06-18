@@ -5,7 +5,7 @@
 #include "./state.hpp"
 #include "../config.hpp"
 
-static int pawn_posw[2][6][5]={{
+static double pawn_posw[2][6][5]={{
     {6, 6, 6, 6, 6},
     {5, 5, 5, 5, 5},
     {4, 4, 4, 4, 4},
@@ -14,11 +14,11 @@ static int pawn_posw[2][6][5]={{
     {1, 1, 1, 1, 1}
   }, {
     {1, 1, 1, 1, 1},
+    {1.25, 1.25, 1.25, 1.25, 1.25},
+    {1.5, 1.5, 1.5, 1.5, 1.5},
+    {1.75, 1.75, 1.75, 1.75, 1.75},
     {2, 2, 2, 2, 2},
-    {3, 3, 3, 3, 3},
-    {4, 4, 4, 4, 4},
-    {5, 5, 5, 5, 5},
-    {6, 6, 6, 6, 6}
+    {2.5, 2.5, 2.5, 2.5, 2.5}
   }
 };
 static int rook_posw[2][6][5]={{
@@ -115,27 +115,27 @@ int State::evaluate(){
       for(int j=0;j<5;j++){
         switch(board.board[n][i][j]-'\0'){
           case 1:
-            val[n]+=2;
+            val[n]+=10;
             //std::cout<<"pawn\n";
             break;
           case 2:
-            val[n]+=10;
+            val[n]+=50;
             //std::cout<<"rook\n";
             break;
           case 3:
-            val[n]+=7;
+            val[n]+=30;
             //std::cout<<"knight\n";
             break;
           case 4:
-            val[n]+=7;
+            val[n]+=30;
             //std::cout<<"bishop\n";
             break;
           case 5:
-            val[n]+=20;
+            val[n]+=90;
             //std::cout<<"queen\n";
             break;
           case 6:
-            val[n]+=200;
+            val[n]+=900;
             //std::cout<<"king\n";
             break;
           default:
@@ -157,22 +157,22 @@ int State::betterevaluate(){
       for(int j=0;j<5;j++){
         switch(board.board[n][i][j]-'\0'){
           case 1:
-            pieceval=2*pawn_posw[n][i][j];
+            pieceval=4;
             break;
           case 2:
-            pieceval=8*rook_posw[n][i][j];
+            pieceval=16;
             break;
           case 3:
-            pieceval=7*knight_posw[n][i][j];
+            pieceval=14;
             break;
           case 4:
-            pieceval=7*bishop_posw[n][i][j];
+            pieceval=14;
             break;
           case 5:
-            pieceval=20*queen_posw[n][i][j];
+            pieceval=40;
             break;
           case 6:
-            pieceval=100*king_posw[n][i][j];
+            pieceval=400;
             break;
           default:
             break;

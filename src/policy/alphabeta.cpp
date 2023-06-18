@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <climits>
 #include "../state/state.hpp"
-#include "./bettereva.hpp"
+#include "./alphabeta.hpp"
 
 Move Bettereva::get_move(State *state, int depth){
     state->get_legal_actions();
@@ -31,7 +31,7 @@ Move Bettereva::get_move(State *state, int depth){
 }
 
 int Bettereva::minimax(State* state, int depth, int alpha, int beta, bool maximumplayer, int me){
-    if(depth>=6){
+    if(depth>=7){
         return state->evaluate();
     }
     int best=(maximumplayer)?INT_MIN:INT_MAX;
