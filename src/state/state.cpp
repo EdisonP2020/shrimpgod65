@@ -5,7 +5,102 @@
 #include "./state.hpp"
 #include "../config.hpp"
 
-
+static int pawn_posw[2][6][5]={{
+    {6, 6, 6, 6, 6},
+    {5, 5, 5, 5, 5},
+    {4, 4, 4, 4, 4},
+    {3, 3, 3, 3, 3},
+    {2, 2, 2, 2, 2},
+    {1, 1, 1, 1, 1}
+  }, {
+    {1, 1, 1, 1, 1},
+    {2, 2, 2, 2, 2},
+    {3, 3, 3, 3, 3},
+    {4, 4, 4, 4, 4},
+    {5, 5, 5, 5, 5},
+    {6, 6, 6, 6, 6}
+  }
+};
+static int rook_posw[2][6][5]={{
+    {2, 2, 2, 2, 2},
+    {5, 6, 6, 6, 5},
+    {1, 1, 1, 1, 1},
+    {2, 3, 3, 3, 2},
+    {2, 2, 2, 2, 2},
+    {1, 1, 1, 1, 1}
+  }, {
+    {1, 1, 1, 1, 1},
+    {2, 2, 2, 2, 2},
+    {1, 1, 1, 1, 1},
+    {2, 3, 3, 3, 2},
+    {5, 6, 6, 6, 5},
+    {2, 2, 2, 2, 2}
+  }
+};
+static int knight_posw[2][6][5]={{
+    {3, 3, 3, 3, 3},
+    {4, 4, 4, 4, 4},
+    {5, 5, 5, 5, 5},
+    {6, 6, 6, 6, 6},
+    {2, 2, 2, 2, 2},
+    {1, 1, 1, 1, 1}
+  }, {
+    {1, 1, 1, 1, 1},
+    {2, 2, 2, 2, 2},
+    {6, 6, 6, 6, 6},
+    {5, 5, 5, 5, 5},
+    {4, 4, 4, 4, 4},
+    {3, 3, 3, 3, 3}
+  }
+};
+static int bishop_posw[2][6][5]={{
+    {3, 3, 3, 3, 3},
+    {4, 4, 4, 4, 4},
+    {5, 5, 5, 5, 5},
+    {6, 6, 6, 6, 6},
+    {2, 2, 2, 2, 2},
+    {1, 1, 1, 1, 1}
+  }, {
+    {1, 1, 1, 1, 1},
+    {2, 2, 2, 2, 2},
+    {6, 6, 6, 6, 6},
+    {5, 5, 5, 5, 5},
+    {4, 4, 4, 4, 4},
+    {3, 3, 3, 3, 3}
+  }
+};
+static int queen_posw[2][6][5]={{
+    {3, 3, 3, 3, 3},
+    {4, 4, 4, 4, 4},
+    {5, 5, 5, 5, 5},
+    {6, 6, 6, 6, 6},
+    {2, 2, 2, 2, 2},
+    {1, 1, 1, 1, 1}
+  }, {
+    {1, 1, 1, 1, 1},
+    {2, 2, 2, 2, 2},
+    {6, 6, 6, 6, 6},
+    {5, 5, 5, 5, 5},
+    {4, 4, 4, 4, 4},
+    {3, 3, 3, 3, 3}
+  }
+};
+static int king_posw[2][6][5]={{
+    {1, 1, 1, 1, 1},
+    {2, 2, 2, 2, 2},
+    {3, 3, 3, 3, 3},
+    {4, 4, 4, 4, 4},
+    {5, 5, 5, 5, 5},
+    {6, 6, 6, 6, 6}
+  }, {
+    {6, 6, 6, 6, 6},
+    {5, 5, 5, 5, 5},
+    {4, 4, 4, 4, 4},
+    {3, 3, 3, 3, 3},
+    {2, 2, 2, 2, 2},
+    {1, 1, 1, 1, 1}
+  }
+};
 /**
  * @brief evaluate the state
  * 
@@ -21,21 +116,27 @@ int State::evaluate(){
         switch(board.board[n][i][j]-'\0'){
           case 1:
             val[n]+=2;
+            //std::cout<<"pawn\n";
             break;
           case 2:
-            val[n]+=6;
+            val[n]+=10;
+            //std::cout<<"rook\n";
             break;
           case 3:
             val[n]+=7;
+            //std::cout<<"knight\n";
             break;
           case 4:
-            val[n]+=8;
+            val[n]+=7;
+            //std::cout<<"bishop\n";
             break;
           case 5:
             val[n]+=20;
+            //std::cout<<"queen\n";
             break;
           case 6:
-            val[n]+=100;
+            val[n]+=200;
+            //std::cout<<"king\n";
             break;
           default:
             break;
@@ -48,14 +149,7 @@ int State::evaluate(){
 int State::betterevaluate(){
   // [TODO] design your own evaluation function
   int val[2];
-  int positionWeights[6][5]={
-    {1, 2, 3, 2, 1},
-    {2, 4, 6, 4, 2},
-    {3, 6, 9, 6, 3},
-    {3, 6, 9, 6, 3},
-    {2, 4, 6, 4, 2},
-    {1, 2, 3, 2, 1}
-  };
+
   for(int n=0;n<2;n++){
     val[n]=0;
     int pieceval=0;
@@ -63,27 +157,27 @@ int State::betterevaluate(){
       for(int j=0;j<5;j++){
         switch(board.board[n][i][j]-'\0'){
           case 1:
-            pieceval=2;
+            pieceval=2*pawn_posw[n][i][j];
             break;
           case 2:
-            pieceval=6;
+            pieceval=8*rook_posw[n][i][j];
             break;
           case 3:
-            pieceval=7;
+            pieceval=7*knight_posw[n][i][j];
             break;
           case 4:
-            pieceval=8;
+            pieceval=7*bishop_posw[n][i][j];
             break;
           case 5:
-            pieceval=20;
+            pieceval=20*queen_posw[n][i][j];
             break;
           case 6:
-            pieceval=100;
+            pieceval=100*king_posw[n][i][j];
             break;
           default:
             break;
         }
-        val[n]+=pieceval*positionWeights[i][j];
+        val[n]+=pieceval;
       }
     }
   }

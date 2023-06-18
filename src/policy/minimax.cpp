@@ -8,18 +8,19 @@ Move Minimax::get_move(State *state, int depth){
     auto actions = state->legal_actions;
     Move bestmove;
     int eval=(state->player)?INT_MAX:INT_MIN;
-    int me = state->player;
     for(auto it :actions){
         State *root = state->next_state(it);
         if(state->player){
-            int val = minimax(root, depth+1, INT_MIN, INT_MAX, false, me);
+            //if(root->game_state==WIN) continue;
+            int val = minimax(root, depth+1, INT_MIN, INT_MAX, true, state->player);
             if(val < eval){
                 eval = val;
                 bestmove = it;
             }
         }
         else{
-            int val = minimax(root, depth+1, INT_MIN, INT_MAX, true, me);
+            //if(root->game_state==WIN) continue;
+            int val = minimax(root, depth+1, INT_MIN, INT_MAX, false, state->player);
             if(val > eval){
                 eval = val;
                 bestmove = it;
@@ -31,13 +32,7 @@ Move Minimax::get_move(State *state, int depth){
 }
 
 int Minimax::minimax(State* state, int depth, int alpha, int beta, bool maximumplayer, int me){
-    if(depth>=6){
-        return state->evaluate();
-    }
-    else if(me==0&&maximumplayer&&state->game_state==WIN){
-        return state->evaluate();
-    }
-    else if(me==1&&!maximumplayer&&state->game_state==WIN){
+    if(depth>=7){
         return state->evaluate();
     }
     int best=(maximumplayer)?INT_MIN:INT_MAX;
@@ -61,7 +56,7 @@ int Minimax::minimax(State* state, int depth, int alpha, int beta, bool maximump
             int val = minimax(nextstate, depth+1, alpha, beta, true, me);
             delete nextstate;
             best = (best<val)?best:val;
-            beta = (beta>best)?beta:best;
+            beta = (beta<best)?beta:best;
             if(beta<=alpha){
                 break;
             }
