@@ -1,9 +1,9 @@
 #include <cstdlib>
 #include <climits>
 #include "../state/state.hpp"
-#include "./alphabeta.hpp"
+#include "./bettereva.hpp"
 
-Move Alphabeta::get_move(State *state, int depth){
+Move Bettereva::get_move(State *state, int depth){
     state->get_legal_actions();
     auto actions = state->legal_actions;
     Move bestmove;
@@ -30,9 +30,9 @@ Move Alphabeta::get_move(State *state, int depth){
     return bestmove;
 }
 
-int Alphabeta::minimax(State* state, int depth, int alpha, int beta, bool maximumplayer, int me){
+int Bettereva::minimax(State* state, int depth, int alpha, int beta, bool maximumplayer, int me){
     if(depth>=7){
-        return state->evaluate();
+        return state->betterevaluate();
     }
     else if(state->game_state==WIN){
         if(state->player){

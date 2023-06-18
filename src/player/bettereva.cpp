@@ -4,7 +4,7 @@
 
 #include "../config.hpp"
 #include "../state/state.hpp"
-#include "../policy/alphabeta.hpp"
+#include "../policy/bettereva.hpp"
 
 
 State* root;
@@ -43,7 +43,7 @@ void write_valid_spot(std::ofstream& fout) {
   // Keep updating the output until getting killed.
   while(true) {
     // You got brain now!
-    auto move = Alphabeta::get_move(root, 0);
+    auto move = Bettereva::get_move(root, 0);
     fout << move.first.first << " " << move.first.second << " "\
          << move.second.first << " " << move.second.second << std::endl;
     
