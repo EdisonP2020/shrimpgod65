@@ -31,7 +31,7 @@ Move Bettereva::get_move(State *state, int depth){
 }
 
 int Bettereva::minimax(State* state, int depth, int alpha, int beta, bool maximumplayer, int me){
-    if(depth>=7){
+    if(depth>=6){
         return state->betterevaluate();
     }
     else if(state->game_state==WIN){

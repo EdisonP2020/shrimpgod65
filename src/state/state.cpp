@@ -6,7 +6,7 @@
 #include "../config.hpp"
 
 static double pawn_posw[2][6][5]={{
-    {0, 0, 0, 0, 0},
+    {80, 80, 80, 80, 80},
     {5, 5, 5, 5, 5},
     {0.5, 1, 2.5, 1, 0.5},
     {0, 0, 2, 0, 0},
@@ -18,7 +18,7 @@ static double pawn_posw[2][6][5]={{
     {0, 0, 2, 0, 0},
     {0.5, 1, 2.5, 1, 0.5},
     {5, 5, 5, 5, 5},
-    {0, 0, 0, 0, 0}
+    {80, 80, 80, 80, 80}
   }
 };
 static double rook_posw[2][6][5]={{
@@ -101,6 +101,93 @@ static double king_posw[2][6][5]={{
     {-3, -4, -5, -4, -3}
   }
 };
+int State::checkrookmove(int i, int j){
+  int up=-2;
+  int right=-2;
+  int left=-2;
+  int down=-2;
+  for(int x = j+1; x < 5; x++){
+    if(!board.board[0][i][x]&&!board.board[1][i][x]){
+      right++;
+    }
+    else{
+      right++;
+      break;
+    }
+  }
+  for(int x=j-1;x>=0;x--){
+    if(!board.board[0][i][x]&&!board.board[1][i][x]){
+      left++;
+    }
+    else{
+      left++;
+      break;
+    }
+  }
+  for(int y = j+1; y < 6; y++){
+    if(!board.board[0][y][j]&&!board.board[1][i][j]){
+      down++;
+    }
+    else{
+      down++;
+      break;
+    }
+  }
+  for(int y=j-1;y>=0;y--){
+    if(!board.board[0][y][j]&&!board.board[1][i][j]){
+      up++;
+    }
+    else{
+      up++;
+      break;
+    }
+  }
+  return (up+down+right+left);
+}
+
+int State::checkbismove(int i, int j){
+  int upright=-2;
+  int downright=-2;
+  int upleft=-2;
+  int downleft=-2;
+  for(int x=1;i+x<6&&j+x<5;x++){
+    if(!board.board[0][i+x][j+x]&&!board.board[1][i+x][j+x]){
+      downright++;
+    }
+    else{
+      downright++;
+      break;
+    }
+  }
+  for(int x=1;i-x>=0&&j-x>=0;x++){
+    if(!board.board[0][i-x][j-x]&&!board.board[1][i-x][j-x]){
+      upleft++;
+    }
+    else{
+      upleft++;
+      break;
+    }
+  }
+  for(int x=1;i+x<6&&j-x>=0;x++){
+    if(!board.board[0][i+x][j-x]&&!board.board[1][i+x][j-x]){
+      downleft++;
+    }
+    else{
+      downleft++;
+      break;
+    }
+  }
+  for(int x=1;i-x>=0&&j+x<5;x++){
+    if(!board.board[0][i-x][j+x]&&!board.board[1][i-x][j+x]){
+      upright++;
+    }
+    else{
+      upright++;
+      break;
+    }
+  }
+  return (downleft+downright+upright+upleft);
+}
 /**
  * @brief evaluate the state
  * 
@@ -113,7 +200,7 @@ int State::evaluate(){
     val[n]=0;
     for(int i=0;i<6;i++){
       for(int j=0;j<5;j++){
-        switch(board.board[n][i][j]-'\0'){
+        switch(board.board[n][i][j]){
           case 1:
             val[n]+=10;
             //std::cout<<"pawn\n";
@@ -155,21 +242,21 @@ int State::betterevaluate(){
     for(int i=0;i<6;i++){
       for(int j=0;j<5;j++){
         int pieceval=0;
-        switch(board.board[n][i][j]-'\0'){
+        switch(board.board[n][i][j]){
           case 1:
             pieceval+=(20+2*pawn_posw[n][i][j]);
             break;
           case 2:
-            pieceval+=(100+2*rook_posw[n][i][j]);
+            pieceval+=(100+2*rook_posw[n][i][j]+checkrookmove(i, j));
             break;
           case 3:
             pieceval+=(60+2*knight_posw[n][i][j]);
             break;
           case 4:
-            pieceval+=(60+2*bishop_posw[n][i][j]);
+            pieceval+=(60+2*bishop_posw[n][i][j]+checkbismove(i, j));
             break;
           case 5:
-            pieceval+=(180+2*queen_posw[n][i][j]);
+            pieceval+=(180+2*queen_posw[n][i][j]+checkbismove(i, j)+checkrookmove(i, j));
             break;
           case 6:
             pieceval+=(1800+2*king_posw[n][i][j]);
@@ -184,7 +271,6 @@ int State::betterevaluate(){
   //std::cout<<val[0]<<" "<<val[1]<<"\n";
   return val[0]-val[1];
 }
-
 
 /**
  * @brief return next state after the move

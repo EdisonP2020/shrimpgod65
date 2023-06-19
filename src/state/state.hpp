@@ -52,8 +52,10 @@ class State{
     State(int player): player(player){};
     State(Board board): board(board){};
     State(Board board, int player): board(board), player(player){};
-    
+    int b_evaluate();
     int evaluate();
+    int checkrookmove(int i, int j);
+    int checkbismove(int i, int j);
     int betterevaluate();
     State* next_state(Move move);
     void get_legal_actions();
