@@ -37,10 +37,10 @@ int Minimax::minimax(State* state, int depth, bool maximumplayer, int me){
     }
     else if(state->game_state==WIN){
         if(state->player){
-            return INT_MIN;
+            return -10000000;
         }
         else{
-            return INT_MAX;
+            return 10000000;
         }
     }
     int best=(maximumplayer)?INT_MIN:INT_MAX;

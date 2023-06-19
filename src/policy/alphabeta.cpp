@@ -25,7 +25,6 @@ Move Alphabeta::get_move(State *state, int depth){
             }
         }
         delete root;
-        
     }
     return bestmove;
 }
@@ -36,10 +35,10 @@ int Alphabeta::minimax(State* state, int depth, int alpha, int beta, bool maximu
     }
     else if(state->game_state==WIN){
         if(state->player){
-            return INT_MIN;
+            return -10000000;
         }
         else{
-            return INT_MAX;
+            return 10000000;
         }
     }
     int best=(maximumplayer)?INT_MIN:INT_MAX;

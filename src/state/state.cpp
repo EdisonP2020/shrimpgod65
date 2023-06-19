@@ -152,9 +152,9 @@ int State::betterevaluate(){
 
   for(int n=0;n<2;n++){
     val[n]=0;
-    int pieceval=0;
     for(int i=0;i<6;i++){
       for(int j=0;j<5;j++){
+        int pieceval=0;
         switch(board.board[n][i][j]-'\0'){
           case 1:
             pieceval+=(20+2*pawn_posw[n][i][j]);
