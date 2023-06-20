@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <climits>
 #include "../state/state.hpp"
-#include "./bettereva.hpp"
+#include "./submission.hpp"
 
 Move Bettereva::get_move(State *state, int depth){
     state->get_legal_actions();

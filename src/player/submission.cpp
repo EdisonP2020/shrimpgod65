@@ -4,7 +4,7 @@
 
 #include "../config.hpp"
 #include "../state/state.hpp"
-#include "../policy/bettereva.hpp"
+#include "../policy/submission.hpp"
 
 
 State* root;
