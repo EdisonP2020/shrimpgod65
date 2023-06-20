@@ -247,16 +247,16 @@ int State::betterevaluate(){
             pieceval+=(20+2*pawn_posw[n][i][j]);
             break;
           case 2:
-            pieceval+=(100+2*rook_posw[n][i][j]+checkrookmove(i, j));
+            pieceval+=(100+2*rook_posw[n][i][j]/*+0.3*checkrookmove(i, j)*/);
             break;
           case 3:
             pieceval+=(60+2*knight_posw[n][i][j]);
             break;
           case 4:
-            pieceval+=(60+2*bishop_posw[n][i][j]+checkbismove(i, j));
+            pieceval+=(60+2*bishop_posw[n][i][j]/*+0.3*checkbismove(i, j)*/);
             break;
           case 5:
-            pieceval+=(180+2*queen_posw[n][i][j]+checkbismove(i, j)+checkrookmove(i, j));
+            pieceval+=(180+2*queen_posw[n][i][j]/*+checkbismove(i, j)+0.3*checkrookmove(i, j)*/);
             break;
           case 6:
             pieceval+=(1800+2*king_posw[n][i][j]);
